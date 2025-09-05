@@ -19,13 +19,17 @@
         .animate-pop {
             transform: scale(1.1);
         }
-        /* New styles for responsive tabs */
+        /* Styles pour les boutons des onglets */
         .tab-button {
             transition: all 0.3s ease-in-out;
         }
+        /* État actif du bouton */
         .tab-button.active {
-            @apply bg-blue-600 text-white shadow-lg;
+            background-color: #2563EB; /* bg-blue-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
         }
+        /* Styles pour les onglets de contenu */
         .tab-content {
             transition: opacity 0.5s ease-in-out;
         }
@@ -48,9 +52,10 @@
             </button>
         </div>
 
-        <div id="countdown-wrapper">
+        <!-- Conteneur avec une hauteur fixe pour éviter le "saut" de page pendant la transition -->
+        <div id="countdown-wrapper" class="relative h-[25rem]">
             <!-- Compte à rebours pour les prochaines vacances (dynamique) -->
-            <div id="next-content" class="tab-content">
+            <div id="next-content" class="tab-content absolute top-0 left-0 w-full">
                 <h2 id="next-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400 font-semibold">
                     <!-- Le titre des prochaines vacances s'affiche ici -->
                 </h2>
@@ -89,7 +94,7 @@
             </div>
 
             <!-- Compte à rebours pour les grandes vacances d'été (fixe) -->
-            <div id="summer-content" class="tab-content hidden">
+            <div id="summer-content" class="tab-content absolute top-0 left-0 w-full opacity-0 pointer-events-none">
                 <h2 id="summer-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400 font-semibold">
                     Grandes vacances d'été 2026
                 </h2>
@@ -158,10 +163,9 @@
                         messageEl.classList.remove('hidden');
                     }
                     if (prefix === 'next') {
-                        // Si le compte à rebours auto est fini, on cherche le prochain
                         const nextHoliday = findNextHoliday();
                         if (nextHoliday) {
-                             titleEl.textContent = nextHoliday.name;
+                            titleEl.textContent = nextHoliday.name;
                         }
                     }
                     return;
@@ -213,40 +217,28 @@
             let nextHoliday = findNextHoliday();
             let summerHoliday = allHolidays.find(h => h.id === 'summer');
 
-            // Gère l'affichage des onglets
+            // Gère l'affichage des onglets avec une transition
             function showTab(tab) {
                 if (tab === 'next') {
-                    nextContent.classList.remove('hidden');
-                    summerContent.classList.add('hidden');
+                    // Onglet "Prochaines vacances"
+                    nextContent.classList.remove('opacity-0', 'pointer-events-none');
+                    nextContent.classList.add('opacity-100');
+                    // Onglet "Grandes vacances"
+                    summerContent.classList.remove('opacity-100');
+                    summerContent.classList.add('opacity-0', 'pointer-events-none');
+
                     btnNext.classList.add('active');
                     btnSummer.classList.remove('active');
                 } else {
-                    nextContent.classList.add('hidden');
-                    summerContent.classList.remove('hidden');
+                    // Onglet "Prochaines vacances"
+                    nextContent.classList.remove('opacity-100');
+                    nextContent.classList.add('opacity-0', 'pointer-events-none');
+                    // Onglet "Grandes vacances"
+                    summerContent.classList.remove('opacity-0', 'pointer-events-none');
+                    summerContent.classList.add('opacity-100');
+
                     btnNext.classList.remove('active');
                     btnSummer.classList.add('active');
-                }
-            }
-
-            // Gère le compte à rebours automatique
-            function autoUpdateNextCountdown() {
-                const now = new Date();
-                
-                // Si les vacances en cours sont passées, on trouve les prochaines
-                if (nextHoliday && nextHoliday.date <= now) {
-                    nextHoliday = findNextHoliday();
-                    if (nextHoliday) {
-                        document.getElementById('next-holiday-title').textContent = nextHoliday.name;
-                    }
-                }
-
-                // Met à jour le compte à rebours si un est trouvé
-                if (nextHoliday) {
-                    updateCountdown(nextHoliday.date, 'next');
-                } else {
-                    document.getElementById('next-countdown').classList.add('hidden');
-                    document.getElementById('next-no-holiday-message').classList.remove('hidden');
-                    document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
                 }
             }
             
@@ -260,12 +252,32 @@
             // On lance le décompte automatique
             setInterval(autoUpdateNextCountdown, 10);
             
+            // Gère le compte à rebours automatique
+            function autoUpdateNextCountdown() {
+                const now = new Date();
+                
+                if (nextHoliday && nextHoliday.date <= now) {
+                    nextHoliday = findNextHoliday();
+                    if (nextHoliday) {
+                        document.getElementById('next-holiday-title').textContent = nextHoliday.name;
+                    }
+                }
+
+                if (nextHoliday) {
+                    updateCountdown(nextHoliday.date, 'next');
+                } else {
+                    document.getElementById('next-countdown').classList.add('hidden');
+                    document.getElementById('next-no-holiday-message').classList.remove('hidden');
+                    document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
+                }
+            }
+            
             // On affiche le premier onglet par défaut et on met à jour le titre
             showTab('next');
             if (nextHoliday) {
                 document.getElementById('next-holiday-title').textContent = nextHoliday.name;
             } else {
-                 document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
+                document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
             }
         });
     </script>
