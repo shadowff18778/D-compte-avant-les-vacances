@@ -78,30 +78,31 @@
                 <h2 id="next-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400 font-semibold">
                     <!-- Le titre des prochaines vacances s'affiche ici -->
                 </h2>
-                <div id="next-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Semaines</span>
+                <!-- Correction pour le mobile : on utilise un flexbox pour un affichage adaptatif -->
+                <div id="next-countdown" class="flex flex-wrap justify-center gap-2 sm:gap-4">
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-weeks" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Semaines</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Jours</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-days" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Jours</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Heures</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-hours" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Heures</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Minutes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-minutes" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Minutes</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Secondes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-seconds" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Secondes</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="next-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Millisecondes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="next-milliseconds" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Millisecondes</span>
                     </div>
                 </div>
                 <p id="next-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
@@ -117,30 +118,31 @@
                 <h2 id="summer-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400 font-semibold">
                     Grandes vacances d'été 2026
                 </h2>
-                <div id="summer-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Semaines</span>
+                <!-- Correction pour le mobile : on utilise un flexbox pour un affichage adaptatif -->
+                <div id="summer-countdown" class="flex flex-wrap justify-center gap-2 sm:gap-4">
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-weeks" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Semaines</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Jours</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-days" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Jours</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Heures</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-hours" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Heures</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Minutes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-minutes" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Minutes</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Secondes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-seconds" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Secondes</span>
                     </div>
-                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center border border-gray-600 shadow-md">
-                        <span id="summer-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-teal-400">0</span>
-                        <span class="text-xs sm:text-sm md:text-base mt-2 text-gray-400">Millisecondes</span>
+                    <div class="bg-gray-700 rounded-lg p-3 sm:p-4 flex-1 basis-1/3 min-w-32 flex flex-col items-center border border-gray-600 shadow-md">
+                        <span id="summer-milliseconds" class="countdown-value text-3xl sm:text-4xl md:text-6xl font-extrabold text-teal-400">0</span>
+                        <span class="text-xs sm:text-sm mt-1 text-gray-400">Millisecondes</span>
                     </div>
                 </div>
                 <p id="summer-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
