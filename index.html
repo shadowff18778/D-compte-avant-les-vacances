@@ -38,10 +38,10 @@
             Décompte avant les vacances !
         </h1>
 
-        <!-- Buttons to select countdown -->
+        <!-- Boutons pour sélectionner le compte à rebours -->
         <div class="flex justify-center space-x-4 mb-8">
-            <button id="btn-toussaint" class="tab-button py-2 px-6 rounded-full font-semibold bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                Vacances de la Toussaint
+            <button id="btn-next" class="tab-button py-2 px-6 rounded-full font-semibold bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Prochaines vacances
             </button>
             <button id="btn-summer" class="tab-button py-2 px-6 rounded-full font-semibold bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
                 Grandes vacances
@@ -49,45 +49,48 @@
         </div>
 
         <div id="countdown-wrapper">
-            <!-- Countdown for Toussaint -->
-            <div id="toussaint-content" class="tab-content">
-                <h2 class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400">
-                    Vacances de la Toussaint 2025
+            <!-- Compte à rebours pour les prochaines vacances (dynamique) -->
+            <div id="next-content" class="tab-content">
+                <h2 id="next-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400">
+                    <!-- Le titre des prochaines vacances s'affiche ici -->
                 </h2>
-                <div id="toussaint-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div id="next-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Semaines</span>
                     </div>
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Jours</span>
                     </div>
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Heures</span>
                     </div>
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Minutes</span>
                     </div>
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Secondes</span>
                     </div>
                     <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
-                        <span id="toussaint-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span id="next-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
                         <span class="text-sm md:text-base mt-2">Millisecondes</span>
                     </div>
                 </div>
-                <p id="toussaint-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
-                    C'est les vacances de la Toussaint ! 🎉
+                <p id="next-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
+                    C'est les vacances ! 🎉
+                </p>
+                <p id="next-no-holiday-message" class="text-xl sm:text-2xl mt-8 text-red-400 font-semibold hidden">
+                    Pas de vacances à l'horizon pour l'instant... 😥
                 </p>
             </div>
 
-            <!-- Countdown for Summer -->
+            <!-- Compte à rebours pour les grandes vacances d'été (fixe) -->
             <div id="summer-content" class="tab-content hidden">
-                <h2 class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400">
+                <h2 id="summer-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400">
                     Grandes vacances d'été 2026
                 </h2>
                 <div id="summer-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -125,31 +128,51 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const toussaintDate = new Date('2025-10-18T17:00:00');
-            const summerDate = new Date('2026-07-04T17:00:00');
+            // Liste complète des vacances de l'année scolaire
+            const allHolidays = [
+                { name: 'Vacances de la Toussaint', date: new Date('2025-10-18T17:00:00'), id: 'toussaint' },
+                { name: 'Vacances de Noël', date: new Date('2025-12-20T17:00:00'), id: 'noel' },
+                { name: 'Vacances d\'Hiver', date: new Date('2026-02-07T17:00:00'), id: 'hiver' },
+                { name: 'Vacances de Printemps', date: new Date('2026-04-04T17:00:00'), id: 'printemps' },
+                { name: 'Grandes vacances d\'été', date: new Date('2026-07-04T17:00:00'), id: 'summer' }
+            ];
 
-            const btnToussaint = document.getElementById('btn-toussaint');
+            const btnNext = document.getElementById('btn-next');
             const btnSummer = document.getElementById('btn-summer');
-            const toussaintContent = document.getElementById('toussaint-content');
+            const nextContent = document.getElementById('next-content');
             const summerContent = document.getElementById('summer-content');
 
-            // Generic function to update a countdown
+            // Met à jour un compte à rebours
             function updateCountdown(targetDate, prefix) {
                 const now = new Date();
                 const difference = targetDate - now;
 
                 const messageEl = document.getElementById(`${prefix}-message`);
                 const countdownEl = document.getElementById(`${prefix}-countdown`);
+                const titleEl = document.getElementById(`${prefix}-holiday-title`);
 
+                // Gère le cas où la date est passée
                 if (difference <= 0) {
                     countdownEl.classList.add('hidden');
-                    messageEl.classList.remove('hidden');
+                    if (messageEl) {
+                        messageEl.classList.remove('hidden');
+                    }
+                    if (prefix === 'next') {
+                        // Si le compte à rebours auto est fini, on cherche le prochain
+                        const nextHoliday = findNextHoliday();
+                        if (nextHoliday) {
+                             titleEl.textContent = nextHoliday.name;
+                        }
+                    }
                     return;
                 } else {
                     countdownEl.classList.remove('hidden');
-                    messageEl.classList.add('hidden');
+                    if (messageEl) {
+                        messageEl.classList.add('hidden');
+                    }
                 }
 
+                // Calcul des valeurs
                 const msInSecond = 1000;
                 const msInMinute = msInSecond * 60;
                 const msInHour = msInMinute * 60;
@@ -163,9 +186,10 @@
                 const seconds = Math.floor((difference % msInMinute) / msInSecond);
                 const milliseconds = Math.floor(difference % msInSecond);
 
+                // Fonction pour mettre à jour un élément et ajouter une animation
                 const updateAndAnimate = (elementId, value) => {
                     const el = document.getElementById(elementId);
-                    if (el.textContent !== String(value)) {
+                    if (el && el.textContent !== String(value)) {
                         el.textContent = value;
                         el.classList.add('animate-pop');
                         setTimeout(() => el.classList.remove('animate-pop'), 100);
@@ -180,31 +204,69 @@
                 updateAndAnimate(`${prefix}-milliseconds`, milliseconds);
             }
 
-            // Function to show/hide the correct countdown tab
+            // Trouve les prochaines vacances
+            function findNextHoliday() {
+                const now = new Date();
+                return allHolidays.find(holiday => holiday.date > now);
+            }
+
+            let nextHoliday = findNextHoliday();
+            let summerHoliday = allHolidays.find(h => h.id === 'summer');
+
+            // Gère l'affichage des onglets
             function showTab(tab) {
-                if (tab === 'toussaint') {
-                    toussaintContent.classList.remove('hidden');
+                if (tab === 'next') {
+                    nextContent.classList.remove('hidden');
                     summerContent.classList.add('hidden');
-                    btnToussaint.classList.add('active');
+                    btnNext.classList.add('active');
                     btnSummer.classList.remove('active');
                 } else {
-                    toussaintContent.classList.add('hidden');
+                    nextContent.classList.add('hidden');
                     summerContent.classList.remove('hidden');
-                    btnToussaint.classList.remove('active');
+                    btnNext.classList.remove('active');
                     btnSummer.classList.add('active');
                 }
             }
+
+            // Gère le compte à rebours automatique
+            function autoUpdateNextCountdown() {
+                const now = new Date();
+                
+                // Si les vacances en cours sont passées, on trouve les prochaines
+                if (nextHoliday && nextHoliday.date <= now) {
+                    nextHoliday = findNextHoliday();
+                    if (nextHoliday) {
+                        document.getElementById('next-holiday-title').textContent = nextHoliday.name;
+                    }
+                }
+
+                // Met à jour le compte à rebours si un est trouvé
+                if (nextHoliday) {
+                    updateCountdown(nextHoliday.date, 'next');
+                } else {
+                    document.getElementById('next-countdown').classList.add('hidden');
+                    document.getElementById('next-no-holiday-message').classList.remove('hidden');
+                    document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
+                }
+            }
             
-            // Add event listeners to the buttons
-            btnToussaint.addEventListener('click', () => showTab('toussaint'));
+            // Événements pour les boutons
+            btnNext.addEventListener('click', () => showTab('next'));
             btnSummer.addEventListener('click', () => showTab('summer'));
 
-            // Run the countdowns for both, but only one is visible at a time
-            setInterval(() => updateCountdown(toussaintDate, 'toussaint'), 10);
-            setInterval(() => updateCountdown(summerDate, 'summer'), 10);
+            // On lance le décompte des grandes vacances
+            setInterval(() => updateCountdown(summerHoliday.date, 'summer'), 10);
             
-            // Show the first countdown by default
-            showTab('toussaint');
+            // On lance le décompte automatique
+            setInterval(autoUpdateNextCountdown, 10);
+            
+            // On affiche le premier onglet par défaut et on met à jour le titre
+            showTab('next');
+            if (nextHoliday) {
+                document.getElementById('next-holiday-title').textContent = nextHoliday.name;
+            } else {
+                 document.getElementById('next-holiday-title').textContent = 'Pas de vacances à l\'horizon !';
+            }
         });
     </script>
 </body>
