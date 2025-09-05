@@ -29,8 +29,9 @@
             color: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
         }
-        /* Transition améliorée pour les onglets de contenu */
+        /* Transition améliorée pour les onglets de contenu avec optimisation "will-change" */
         .tab-content {
+            will-change: transform, opacity, filter;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .tab-content.is-active {
@@ -257,10 +258,10 @@
             btnSummer.addEventListener('click', () => showTab('summer'));
 
             // On lance le décompte des grandes vacances
-            setInterval(() => updateCountdown(summerHoliday.date, 'summer'), 10);
+            setInterval(() => updateCountdown(summerHoliday.date, 'summer'), 100);
             
             // On lance le décompte automatique
-            setInterval(autoUpdateNextCountdown, 10);
+            setInterval(autoUpdateNextCountdown, 100);
             
             // Gère le compte à rebours automatique
             function autoUpdateNextCountdown() {
