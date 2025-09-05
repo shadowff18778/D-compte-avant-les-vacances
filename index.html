@@ -29,9 +29,27 @@
             color: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
         }
-        /* Styles pour les onglets de contenu */
+        /* Transition améliorée pour les onglets de contenu */
         .tab-content {
-            transition: opacity 0.5s ease-in-out;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tab-content.is-active {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+            filter: blur(0);
+        }
+        .tab-content.is-inactive {
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+            filter: blur(5px);
+        }
+        .tab-content.is-inactive-left {
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
+            filter: blur(5px);
         }
     </style>
 </head>
@@ -53,9 +71,9 @@
         </div>
 
         <!-- Conteneur avec une hauteur fixe pour éviter le "saut" de page pendant la transition -->
-        <div id="countdown-wrapper" class="relative h-[25rem]">
+        <div id="countdown-wrapper" class="relative h-[25rem] overflow-hidden">
             <!-- Compte à rebours pour les prochaines vacances (dynamique) -->
-            <div id="next-content" class="tab-content absolute top-0 left-0 w-full">
+            <div id="next-content" class="tab-content absolute top-0 left-0 w-full is-active">
                 <h2 id="next-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400 font-semibold">
                     <!-- Le titre des prochaines vacances s'affiche ici -->
                 </h2>
@@ -94,7 +112,7 @@
             </div>
 
             <!-- Compte à rebours pour les grandes vacances d'été (fixe) -->
-            <div id="summer-content" class="tab-content absolute top-0 left-0 w-full opacity-0 pointer-events-none">
+            <div id="summer-content" class="tab-content absolute top-0 left-0 w-full is-inactive">
                 <h2 id="summer-holiday-title" class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400 font-semibold">
                     Grandes vacances d'été 2026
                 </h2>
@@ -133,7 +151,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Liste complète des vacances de l'année scolaire
             const allHolidays = [
                 { name: 'Vacances de la Toussaint', date: new Date('2025-10-18T17:00:00'), id: 'toussaint' },
                 { name: 'Vacances de Noël', date: new Date('2025-12-20T17:00:00'), id: 'noel' },
@@ -147,7 +164,6 @@
             const nextContent = document.getElementById('next-content');
             const summerContent = document.getElementById('summer-content');
 
-            // Met à jour un compte à rebours
             function updateCountdown(targetDate, prefix) {
                 const now = new Date();
                 const difference = targetDate - now;
@@ -156,7 +172,6 @@
                 const countdownEl = document.getElementById(`${prefix}-countdown`);
                 const titleEl = document.getElementById(`${prefix}-holiday-title`);
 
-                // Gère le cas où la date est passée
                 if (difference <= 0) {
                     countdownEl.classList.add('hidden');
                     if (messageEl) {
@@ -176,7 +191,6 @@
                     }
                 }
 
-                // Calcul des valeurs
                 const msInSecond = 1000;
                 const msInMinute = msInSecond * 60;
                 const msInHour = msInMinute * 60;
@@ -190,7 +204,6 @@
                 const seconds = Math.floor((difference % msInMinute) / msInSecond);
                 const milliseconds = Math.floor(difference % msInSecond);
 
-                // Fonction pour mettre à jour un élément et ajouter une animation
                 const updateAndAnimate = (elementId, value) => {
                     const el = document.getElementById(elementId);
                     if (el && el.textContent !== String(value)) {
@@ -208,7 +221,6 @@
                 updateAndAnimate(`${prefix}-milliseconds`, milliseconds);
             }
 
-            // Trouve les prochaines vacances
             function findNextHoliday() {
                 const now = new Date();
                 return allHolidays.find(holiday => holiday.date > now);
@@ -217,25 +229,23 @@
             let nextHoliday = findNextHoliday();
             let summerHoliday = allHolidays.find(h => h.id === 'summer');
 
-            // Gère l'affichage des onglets avec une transition
+            // Gère l'affichage des onglets avec la nouvelle transition
             function showTab(tab) {
                 if (tab === 'next') {
-                    // Onglet "Prochaines vacances"
-                    nextContent.classList.remove('opacity-0', 'pointer-events-none');
-                    nextContent.classList.add('opacity-100');
-                    // Onglet "Grandes vacances"
-                    summerContent.classList.remove('opacity-100');
-                    summerContent.classList.add('opacity-0', 'pointer-events-none');
+                    nextContent.classList.remove('is-inactive-left', 'is-inactive');
+                    nextContent.classList.add('is-active');
+                    
+                    summerContent.classList.remove('is-active');
+                    summerContent.classList.add('is-inactive');
 
                     btnNext.classList.add('active');
                     btnSummer.classList.remove('active');
                 } else {
-                    // Onglet "Prochaines vacances"
-                    nextContent.classList.remove('opacity-100');
-                    nextContent.classList.add('opacity-0', 'pointer-events-none');
-                    // Onglet "Grandes vacances"
-                    summerContent.classList.remove('opacity-0', 'pointer-events-none');
-                    summerContent.classList.add('opacity-100');
+                    nextContent.classList.remove('is-active');
+                    nextContent.classList.add('is-inactive-left');
+                    
+                    summerContent.classList.remove('is-inactive', 'is-inactive-left');
+                    summerContent.classList.add('is-active');
 
                     btnNext.classList.remove('active');
                     btnSummer.classList.add('active');
