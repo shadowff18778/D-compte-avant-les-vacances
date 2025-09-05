@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte à rebours pour les vacances</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .countdown-value {
+            font-variant-numeric: tabular-nums;
+            transition: transform 0.1s ease-in-out;
+        }
+        .animate-pop {
+            transform: scale(1.1);
+        }
+        /* New styles for responsive tabs */
+        .tab-button {
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-button.active {
+            @apply bg-blue-600 text-white shadow-lg;
+        }
+        .tab-content {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="text-center bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-4xl">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+            Décompte avant les vacances !
+        </h1>
+
+        <!-- Buttons to select countdown -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="btn-toussaint" class="tab-button py-2 px-6 rounded-full font-semibold bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Vacances de la Toussaint
+            </button>
+            <button id="btn-summer" class="tab-button py-2 px-6 rounded-full font-semibold bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                Grandes vacances
+            </button>
+        </div>
+
+        <div id="countdown-wrapper">
+            <!-- Countdown for Toussaint -->
+            <div id="toussaint-content" class="tab-content">
+                <h2 class="text-lg sm:text-xl md:text-2xl mb-4 text-blue-400">
+                    Vacances de la Toussaint 2025
+                </h2>
+                <div id="toussaint-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Semaines</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Jours</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Heures</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Minutes</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Secondes</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="toussaint-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Millisecondes</span>
+                    </div>
+                </div>
+                <p id="toussaint-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
+                    C'est les vacances de la Toussaint ! 🎉
+                </p>
+            </div>
+
+            <!-- Countdown for Summer -->
+            <div id="summer-content" class="tab-content hidden">
+                <h2 class="text-lg sm:text-xl md:text-2xl mb-4 text-green-400">
+                    Grandes vacances d'été 2026
+                </h2>
+                <div id="summer-countdown" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-weeks" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Semaines</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-days" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Jours</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-hours" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Heures</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-minutes" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Minutes</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-seconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Secondes</span>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 flex flex-col items-center">
+                        <span id="summer-milliseconds" class="countdown-value text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">0</span>
+                        <span class="text-sm md:text-base mt-2">Millisecondes</span>
+                    </div>
+                </div>
+                <p id="summer-message" class="text-xl sm:text-2xl mt-8 text-green-400 font-semibold hidden">
+                    C'est les grandes vacances ! 😎
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toussaintDate = new Date('2025-10-18T17:00:00');
+            const summerDate = new Date('2026-07-04T17:00:00');
+
+            const btnToussaint = document.getElementById('btn-toussaint');
+            const btnSummer = document.getElementById('btn-summer');
+            const toussaintContent = document.getElementById('toussaint-content');
+            const summerContent = document.getElementById('summer-content');
+
+            // Generic function to update a countdown
+            function updateCountdown(targetDate, prefix) {
+                const now = new Date();
+                const difference = targetDate - now;
+
+                const messageEl = document.getElementById(`${prefix}-message`);
+                const countdownEl = document.getElementById(`${prefix}-countdown`);
+
+                if (difference <= 0) {
+                    countdownEl.classList.add('hidden');
+                    messageEl.classList.remove('hidden');
+                    return;
+                } else {
+                    countdownEl.classList.remove('hidden');
+                    messageEl.classList.add('hidden');
+                }
+
+                const msInSecond = 1000;
+                const msInMinute = msInSecond * 60;
+                const msInHour = msInMinute * 60;
+                const msInDay = msInHour * 24;
+                const msInWeek = msInDay * 7;
+
+                const weeks = Math.floor(difference / msInWeek);
+                const days = Math.floor((difference % msInWeek) / msInDay);
+                const hours = Math.floor((difference % msInDay) / msInHour);
+                const minutes = Math.floor((difference % msInHour) / msInMinute);
+                const seconds = Math.floor((difference % msInMinute) / msInSecond);
+                const milliseconds = Math.floor(difference % msInSecond);
+
+                const updateAndAnimate = (elementId, value) => {
+                    const el = document.getElementById(elementId);
+                    if (el.textContent !== String(value)) {
+                        el.textContent = value;
+                        el.classList.add('animate-pop');
+                        setTimeout(() => el.classList.remove('animate-pop'), 100);
+                    }
+                };
+
+                updateAndAnimate(`${prefix}-weeks`, weeks);
+                updateAndAnimate(`${prefix}-days`, days);
+                updateAndAnimate(`${prefix}-hours`, hours);
+                updateAndAnimate(`${prefix}-minutes`, minutes);
+                updateAndAnimate(`${prefix}-seconds`, seconds);
+                updateAndAnimate(`${prefix}-milliseconds`, milliseconds);
+            }
+
+            // Function to show/hide the correct countdown tab
+            function showTab(tab) {
+                if (tab === 'toussaint') {
+                    toussaintContent.classList.remove('hidden');
+                    summerContent.classList.add('hidden');
+                    btnToussaint.classList.add('active');
+                    btnSummer.classList.remove('active');
+                } else {
+                    toussaintContent.classList.add('hidden');
+                    summerContent.classList.remove('hidden');
+                    btnToussaint.classList.remove('active');
+                    btnSummer.classList.add('active');
+                }
+            }
+            
+            // Add event listeners to the buttons
+            btnToussaint.addEventListener('click', () => showTab('toussaint'));
+            btnSummer.addEventListener('click', () => showTab('summer'));
+
+            // Run the countdowns for both, but only one is visible at a time
+            setInterval(() => updateCountdown(toussaintDate, 'toussaint'), 10);
+            setInterval(() => updateCountdown(summerDate, 'summer'), 10);
+            
+            // Show the first countdown by default
+            showTab('toussaint');
+        });
+    </script>
+</body>
+</html>
